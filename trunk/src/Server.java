@@ -122,7 +122,7 @@ public class Server implements Runnable
 	{
 		if (args.length != 5)
 		{
-			System.err.println( "Usage: java Server [port number] serverJksFile serverPwd otherJksFile otherPwd" );
+			System.err.println( "Usage: java Server [port number] [serverJksFile] [serverPwd] [otherJksFile] [otherPwd]" );
 			System.exit( 1 );
 		}
 		
