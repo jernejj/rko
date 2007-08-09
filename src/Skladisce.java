@@ -6,7 +6,7 @@ import java.util.Hashtable;
 public class Skladisce
 {
     private String name;
-    private Hashtable<String, Integer> izdelki;
+    private  Hashtable<String, Integer> izdelki;
     public Skladisce next = null;
     
     public Skladisce( String name )
@@ -45,7 +45,10 @@ public class Skladisce
     
     public int vrniStanje(String izdelek)
     {
-    	return izdelki.get(izdelek);
+    	if(izdelki.containsKey(izdelek))
+    		return izdelki.get(izdelek);
+    	else
+    		return -1;
     }
     
     public void dodaj(String izdelek, int kolicina )
@@ -57,12 +60,27 @@ public class Skladisce
     	
     }
     
-    public void zmanjsaj( String izdelek, int kolicina )
+    public int zmanjsaj( String izdelek, int kolicina )
     {
-    	if(izdelki.containsKey(izdelek))
-    		izdelki.put(izdelek, (izdelki.get(izdelek)-kolicina));
-    	else
-    		izdelki.put(izdelek, kolicina);
+    	int zaloga = 0;
+    	boolean obstaja = izdelki.containsKey(izdelek);
+    	
+    	if(obstaja){
+    		 zaloga = izdelki.get(izdelek).intValue();
+    	}
+    	
+    	zaloga = zaloga - kolicina;
+    	
+    	if( zaloga < 0)
+    		return -1;
+    	
+    	if(obstaja){
+    		izdelki.put(izdelek, new Integer(zaloga) );
+    		return zaloga;
+    	}
+    	
+    	return -1;
+    		
     	
     }
 

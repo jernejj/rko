@@ -13,6 +13,7 @@ public class Client implements Runnable
     private String host, myJksFile, myJksPwd, otherJksFile;
     private char[] passphrase, publicPass;
     static private SecureRandom secureRandom;
+    private SSLSocket socket;
 
     public Client( String host, int port , String myJksFile, String myPwd,
 	    String otherJksFile, String otherPwd )
@@ -66,7 +67,7 @@ public class Client implements Runnable
 	    setupSSLContext();
 
 	    SSLSocketFactory sf = sslContext.getSocketFactory();
-	    SSLSocket socket = (SSLSocket)sf.createSocket( host, port );
+	    socket = (SSLSocket)sf.createSocket( host, port );
 	    
 	    InputStream in = socket.getInputStream();
 	    OutputStream out = socket.getOutputStream();
@@ -77,10 +78,12 @@ public class Client implements Runnable
 	catch( GeneralSecurityException gse )
 	{
 	    gse.printStackTrace();
+	    System.exit(1);
 	}
 	catch( IOException ie )
 	{
 	    ie.printStackTrace();
+	    System.exit(1);
 	}
     }
 
@@ -100,13 +103,14 @@ public class Client implements Runnable
 		
 		System.out.println( y = din.readUTF() );
 		
-		if(y.indexOf('m') >= 0)
-		    break;
+		if(y.contains("Prekinjam"))
+		    break; 
 	    }
 	}
 	catch( IOException ie )
 	{
 	    ie.printStackTrace();
+	    System.exit(1);
 	}
     }
 
